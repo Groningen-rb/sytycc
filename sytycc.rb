@@ -9,9 +9,9 @@
 
 #`git co pietje`
 
-home = "#{ENV['HOME']}/prj/sytycc/pietje"
-junk = File.join(home, "Desktop")
-nice = File.join(home, "shelf")
+$home = "#{ENV['HOME']}/prj/sytycc/pietje"
+$junk = File.join($home, "Desktop")
+$nice = File.join($home, "shelf")
 
 def destination(file)
   ext = File.extname(file)
@@ -22,14 +22,14 @@ def destination(file)
 end
 
 def move(src)
-  dir = destination(filename)
-  dst = File.join(home, nice, dir)
+  dir = destination(src)
+  dst = File.join($nice, dir)
   puts "Moving #{src} to #{dst}"
   `mkdir -p #{File.dirname(dst)}`
   `mv "#{src}" "#{dst}"`
 end
 
-Dir.entries(junk).each do |file|
-  filename = File.expand_path(file, junk)
+Dir.entries($junk).each do |file|
+  filename = File.expand_path(file, $junk)
   move filename if File.file?(filename)
 end
