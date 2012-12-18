@@ -2,15 +2,22 @@
 
 # starting up: 'ruby sytycc.rb clean'
 
-require 'fileutils'
+current = ""
+`mkdir -p ~/prj/sytycc/pietje/shelf`
+`git co pietje`
 
-if ARGV[0] == "clean"
-  current = ""
-  Dir.entries('#{ENV["HOME"]}/sytycc/pietje/Desktop').each do |file|
-    if file != "." && file != ".." && !File.directory?("/Users/marten/prj/sytycc/pietje/Desktop/#{file}")
-      current = file
-      `mv "#{ENV['HOME']}/sytycc/pietje/Desktop/#{file}" "#{ENV['HOME']}/sytycc/pietje/shelf/#{file}"`
-    end
+def move(filename)
+  file = File.basename(filename)
+  src = filename
+  dst = File.expand_path("~/prj/sytycc/pietje/shelf/#{file}")
+  puts "Moving #{File.basename(src)} to #{File.basename(dst)}"
+  `mv "#{src}" "#{dst}"`
+end
+
+dir = "#{ENV['HOME']}/prj/sytycc/pietje/Desktop"
+Dir.entries(dir).each do |file|
+  filename = File.expand_path(file, dir)
+  if File.file?(filename)
+    move filename
   end
-  puts "Moving #{current}"
 end
