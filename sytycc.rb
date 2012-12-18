@@ -1,23 +1,15 @@
 #!/usr/bin/env ruby
 
-# starting up: 'ruby sytycc.rb clean'
-
-# movies
-# pictures
-# documents
-# music
-
-#`git co pietje`
-
 $home = "#{ENV['HOME']}/prj/sytycc/pietje"
 $junk = File.join($home, "Desktop")
 $nice = File.join($home, "shelf")
 
 def destination(file)
   ext = File.extname(file)
-  return 'movies' if ['mp4'].include?(ext)
+  return 'movies'   if ['mp4'].include?(ext)
+  return 'porn'     if ['wmv'].include?(ext)
   return 'pictures' if ['png', 'jpg', 'gif'].include?(ext)
-  return 'music' if ['mp3', 'm4a'].include?(ext)
+  return 'music'    if ['mp3', 'm4a'].include?(ext)
   return 'documents'
 end
 
