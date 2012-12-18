@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+# starting up: 'ruby sytycc.rb clean'
+
 require 'fileutils'
 
 if ARGV[0] == "clean"
