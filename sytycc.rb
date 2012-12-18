@@ -2,22 +2,34 @@
 
 # starting up: 'ruby sytycc.rb clean'
 
-current = ""
-`mkdir -p ~/prj/sytycc/pietje/shelf`
-`git co pietje`
+# movies
+# pictures
+# documents
+# music
 
-def move(filename)
-  file = File.basename(filename)
-  src = filename
-  dst = File.expand_path("~/prj/sytycc/pietje/shelf/#{file}")
-  puts "Moving #{File.basename(src)} to #{File.basename(dst)}"
+#`git co pietje`
+
+home = "#{ENV['HOME']}/prj/sytycc/pietje"
+junk = File.join(home, "Desktop")
+nice = File.join(home, "shelf")
+
+def destination(file)
+  ext = File.extname(file)
+  return 'movies' if ['mp4'].include?(ext)
+  return 'pictures' if ['png', 'jpg', 'gif'].include?(ext)
+  return 'music' if ['mp3', 'm4a'].include?(ext)
+  return 'documents'
+end
+
+def move(src)
+  dir = destination(filename)
+  dst = File.join(home, nice, dir)
+  puts "Moving #{src} to #{dst}"
+  `mkdir -p #{File.dirname(dst)}`
   `mv "#{src}" "#{dst}"`
 end
 
-dir = "#{ENV['HOME']}/prj/sytycc/pietje/Desktop"
-Dir.entries(dir).each do |file|
-  filename = File.expand_path(file, dir)
-  if File.file?(filename)
-    move filename
-  end
+Dir.entries(junk).each do |file|
+  filename = File.expand_path(file, junk)
+  move filename if File.file?(filename)
 end
