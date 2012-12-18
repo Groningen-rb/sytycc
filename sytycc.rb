@@ -6,11 +6,10 @@ require 'fileutils'
 
 if ARGV[0] == "clean"
   current = ""
-  Dir.entries('/Users/ivan/Documents/code/personal/groningen-rb-sytycc/pietje/Desktop').each do |file|
-    if file != "." && file != ".." && !File.directory?("/Users/ivan/Documents/code/personal/groningen-rb-sytycc/pietje/Desktop/#{file}")
+  Dir.entries('#{ENV["HOME"]}/sytycc/pietje/Desktop').each do |file|
+    if file != "." && file != ".." && !File.directory?("/Users/marten/prj/sytycc/pietje/Desktop/#{file}")
       current = file
-      FileUtils.cp("/Users/ivan/Documents/code/personal/groningen-rb-sytycc/pietje/Desktop/#{file}", "/Users/ivan/Documents/code/personal/groningen-rb-sytycc/pietje/shelf/#{file}")
-      FileUtils.rm("/Users/ivan/Documents/code/personal/groningen-rb-sytycc/pietje/Desktop/#{file}")
+      `mv "#{ENV['HOME']}/sytycc/pietje/Desktop/#{file}" "#{ENV['HOME']}/sytycc/pietje/shelf/#{file}"`
     end
   end
   puts "Moving #{current}"
