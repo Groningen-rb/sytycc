@@ -1,27 +1,17 @@
 #!/usr/bin/env ruby
 
-$home = "#{ENV['HOME']}/prj/sytycc/pietje"
-$junk = File.join($home, "Desktop")
-$nice = File.join($home, "shelf")
+# starting up: 'ruby sytycc.rb clean'
 
-def destination(file)
-  ext = File.extname(file)
-  return 'movies'   if ['mp4'].include?(ext)
-  return 'porn'     if ['wmv'].include?(ext)
-  return 'pictures' if ['png', 'jpg', 'gif'].include?(ext)
-  return 'music'    if ['mp3', 'm4a'].include?(ext)
-  return 'documents'
-end
+require 'fileutils'
 
-def move(src)
-  dir = destination(src)
-  dst = File.join($nice, dir)
-  puts "Moving #{src} to #{dst}"
-  `mkdir -p #{File.dirname(dst)}`
-  `mv "#{src}" "#{dst}"`
-end
-
-Dir.entries($junk).each do |file|
-  filename = File.expand_path(file, $junk)
-  move filename if File.file?(filename)
+if ARGV[0] == "clean"
+  current = ""
+  Dir.entries('/Users/ivan/Documents/code/personal/groningen-rb-sytycc/pietje/Desktop').each do |file|
+    if file != "." && file != ".." && !File.directory?("/Users/ivan/Documents/code/personal/groningen-rb-sytycc/pietje/Desktop/#{file}")
+      current = file
+      FileUtils.cp("/Users/ivan/Documents/code/personal/groningen-rb-sytycc/pietje/Desktop/#{file}", "/Users/ivan/Documents/code/personal/groningen-rb-sytycc/pietje/shelf/#{file}")
+      FileUtils.rm("/Users/ivan/Documents/code/personal/groningen-rb-sytycc/pietje/Desktop/#{file}")
+    end
+  end
+  puts "Moving #{current}"
 end
